@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,8 +15,6 @@ namespace TokenAuthExampleWebApplication.Controllers
         public TokenController(TokenAuthOptions tokenOptions)
         {
             this.tokenOptions = tokenOptions;
-            //this.bearerOptions = options.Value;
-            //this.signingCredentials = signingCredentials;
         }
 
         /// <summary>

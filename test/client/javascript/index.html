@@ -1,0 +1,88 @@
+<!--  -->
+<html>
+	<head>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	</head>
+<body>
+
+    <p>Username</p>
+    <input type="text" id="username" name="username" value="TEST">
+    
+    <p>Password</p>
+    <input type="text" id="password" name="password" value="TEST">
+    
+    <br /><br />
+
+    <button type="button" id="btnAquireToken">Request a token</button>
+    <button type="button" id="btnAccessData">Contact a protected api</button>
+    <button type="button" id="btnGetTokenInfo">Retreive token details</button>
+
+    <div id="output" style="margin:20px"></div>
+
+    <script type="text/javascript">
+
+        var endpoint = "http://localhost:5000/";
+        var token;
+
+        $(document).ready(function () {
+
+            $("#btnAquireToken").click(function () {
+                var obj = { username: $("#username").val(), password: $("#password").val() };
+                $.ajax({
+                    url: endpoint + 'api/token/',
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(obj),
+                    success: function (data) {
+                        $("#output").html(JSON.stringify(data));
+                        token = data;
+                    }
+                });
+            });
+
+            $("#btnAccessData").click(function () {
+                $.ajax({
+                    url: endpoint + 'api/values/5',
+                    type: 'GET',
+                    contentType: "application/json",
+                    success: function (data) {
+                        $("#output").html(data);
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + token.token);
+                    },
+                    error: function (request, textStatus, errorThrown) {
+                        $("#output").html(
+                            "Request => " + JSON.stringify(request) +
+                            "<br> " + request.getResponseHeader('WWW-Authenticate')
+                        );
+                    }
+                });
+            });
+
+            $("#btnGetTokenInfo").click(function () {
+                $.ajax({
+                    url: endpoint + 'api/token',
+                    type: 'GET',
+                    contentType: "application/json",
+                    success: function (data) {
+                        $("#output").html(JSON.stringify(data));
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + token.token);
+                    },
+                    error: function (request, textStatus, errorThrown) {
+                        $("#output").html(
+                            "Request => " + JSON.stringify(request) +
+                            "<br> " + request.getResponseHeader('WWW-Authenticate')
+                        );
+                    }
+                });
+            });
+                       
+        });
+    </script>
+
+</body>
+</html>

@@ -63,10 +63,32 @@ namespace TokenAuthExampleWebApplication
 
             // Enable the use of an [Authorize("Bearer")] attribute on methods and classes to protect.
             services.AddAuthorization(auth =>
-            {
+            {                
                 auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
                     .RequireAuthenticatedUser().Build());
+                auth.DefaultPolicy = auth.GetPolicy("Bearer");
+            });
+
+            // Note, it is VITAL that this is added BEFORE services.UseMvc() is called.
+            // See https://github.com/mrsheepuk/ASPNETSelfCreatedTokenAuthExample/issues/11
+            services.AddJwtBearerAuthentication(o =>
+            {
+                o.Audience = tokenOptions.Audience;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = key,
+                    ValidAudience = tokenOptions.Audience,
+                    ValidIssuer = tokenOptions.Issuer,
+                    // When receiving a token, check that it is still valid.
+                    ValidateLifetime = true,
+
+                    // This defines the maximum allowable clock skew - i.e. provides a tolerance on the token expiry time 
+                    // when validating the lifetime. As we're creating the tokens locally and validating them on the same 
+                    // machines which should have synchronised time, this can be set to zero. Where external tokens are
+                    // used, some leeway here could be useful.
+                    ClockSkew = TimeSpan.FromMinutes(0)
+                };
             });
 
             services.AddMvc();
@@ -113,27 +135,8 @@ namespace TokenAuthExampleWebApplication
                 });
             });
 
-            // Note, it is VITAL that this is added BEFORE app.UseMvc() is called.
-            // See https://github.com/mrsheepuk/ASPNETSelfCreatedTokenAuthExample/issues/11
-            app.UseJwtBearerAuthentication(new JwtBearerOptions {
-                TokenValidationParameters = new TokenValidationParameters
-                {
-                    IssuerSigningKey = key,
-                    ValidAudience = tokenOptions.Audience,
-                    ValidIssuer = tokenOptions.Issuer,
-
-                    // When receiving a token, check that it is still valid.
-                    ValidateLifetime = true,
-
-                    // This defines the maximum allowable clock skew - i.e. provides a tolerance on the token expiry time 
-                    // when validating the lifetime. As we're creating the tokens locally and validating them on the same 
-                    // machines which should have synchronised time, this can be set to zero. Where external tokens are
-                    // used, some leeway here could be useful.
-                    ClockSkew = TimeSpan.FromMinutes(0)
-                }
-            });
-
             // Configure the HTTP request pipeline.
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             
             // Add MVC to the request pipeline.

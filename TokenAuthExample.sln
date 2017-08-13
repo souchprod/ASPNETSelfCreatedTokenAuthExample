@@ -1,17 +1,15 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4A19A4CA-58C8-4EE5-94BA-B2D2F2DD68EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8165327B-8AB8-4B19-8AC0-9251BFDC1BDC}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TokenAuthExampleWebApplication", "src\TokenAuthExampleWebApplication\TokenAuthExampleWebApplication.xproj", "{F6B6DAA2-0460-419E-88D7-CE887777F469}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TokenAuthExampleWebApplication", "src\TokenAuthExampleWebApplication\TokenAuthExampleWebApplication.csproj", "{F6B6DAA2-0460-419E-88D7-CE887777F469}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,5 +27,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F6B6DAA2-0460-419E-88D7-CE887777F469} = {4A19A4CA-58C8-4EE5-94BA-B2D2F2DD68EE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0B6A60A-7143-4EA9-9A05-D39C63E65A6B}
 	EndGlobalSection
 EndGlobal
