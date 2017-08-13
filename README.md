@@ -1,5 +1,5 @@
 # ASP.NET Core Self-created token authentication example
-A simple example of how to protect an ASP.NET Core Web API project using simple self-created JWT bearer tokens for local username/password checking. Working against dotnet core 1.0.1 as of 04/12/2016 - see the rc1, beta8 and beta7 branches if you're using older framework versions.
+A simple example of how to protect an ASP.NET Core Web API project using simple self-created JWT bearer tokens for local username/password checking. Working against dotnet core 2.0 Preview 2 as of 10/08/2017 - see the 1.0.1, rc1, beta8 and beta7 branches if you're using older framework versions.
 
 **DO NOT USE AS-IS IN PRODUCTION**
 
