@@ -72,7 +72,7 @@ namespace TokenAuthExampleWebApplication
 
             // Note, it is VITAL that this is added BEFORE services.UseMvc() is called.
             // See https://github.com/mrsheepuk/ASPNETSelfCreatedTokenAuthExample/issues/11
-            services.AddJwtBearerAuthentication(o =>
+            services.AddAuthentication().AddJwtBearer(o =>
             {
                 o.Audience = tokenOptions.Audience;
                 o.TokenValidationParameters = new TokenValidationParameters
